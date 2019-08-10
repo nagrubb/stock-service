@@ -1,0 +1,14 @@
+version: '3.7'
+services:
+  stock:
+    build: .
+    image: silentsnowman/stock-service:${TAG}
+    secrets:
+      - alpha_vantage_api_key
+    environment:
+      - ALPHA_VANTAGE_API_KEY_FILE=/run/secrets/alpha_vantage_api_key
+    ports:
+      - "${PORT}:80"
+secrets:
+   alpha_vantage_api_key:
+     file: alpha_vantage_api_key.txt

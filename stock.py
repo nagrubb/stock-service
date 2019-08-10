@@ -17,7 +17,7 @@ try:
 except Exception as e:
     init_error = str(e)
 
-@application.route("/stock/<symbol>")
+@application.route("/api/v1/stock/<symbol>")
 def stock(symbol):
     try:
         if init_error:
