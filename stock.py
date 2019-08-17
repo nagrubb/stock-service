@@ -9,14 +9,15 @@ init_error = None
 application = Flask(__name__)
 
 try:
-    api_key = os.environ['ALPHA_VANTAGE_API_KEY_FILE']
-    ts = TimeSeries(key=api_key)
+    alpha_vantage_api_key_filename = os.environ['ALPHA_VANTAGE_API_KEY_FILE']
+    alpha_vantage_api_key = open(alpha_vantage_api_key_filename, 'r').read()
+    ts = TimeSeries(key=alpha_vantage_api_key)
     if ts is None:
         raise RuntimeError('Failed to create TimeSeries object')
 except Exception as e:
     init_error = str(e)
 
-@application.route("/stock/<symbol>")
+@application.route("/api/v1/stock/<symbol>")
 def stock(symbol):
     try:
         if init_error:
