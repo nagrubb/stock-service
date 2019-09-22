@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import os
+import sys, os, signal
 from functools import wraps
 from flask import Flask, jsonify
 from alpha_vantage.timeseries import TimeSeries
@@ -16,6 +16,10 @@ try:
         raise RuntimeError('Failed to create TimeSeries object')
 except Exception as e:
     init_error = str(e)
+
+def sigtermHandler(signalNumber, frame):
+    print('Exiting from SIGTERM')
+    sys.exit(1)
 
 @application.route("/api/v1/stock/<symbol>")
 def stock(symbol):
@@ -35,4 +39,5 @@ def stock(symbol):
         return jsonify(error = str(e)), 500
 
 if __name__ == "__main__":
+    signal.signal(signal.SIGTERM, sigtermHandler)
     application.run(host='0.0.0.0', port=80)
