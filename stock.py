@@ -3,6 +3,7 @@ import sys, os, signal
 from functools import wraps
 from flask import Flask, jsonify
 from alpha_vantage.timeseries import TimeSeries
+from waitress import serve
 
 ts = None
 init_error = None
@@ -40,4 +41,4 @@ def stock(symbol):
 
 if __name__ == "__main__":
     signal.signal(signal.SIGTERM, sigtermHandler)
-    application.run(host='0.0.0.0', port=80)
+    serve(application, host='0.0.0.0', port=80)
