@@ -7,8 +7,13 @@ services:
       - alpha_vantage_api_key
     environment:
       - ALPHA_VANTAGE_API_KEY_FILE=/run/secrets/alpha_vantage_api_key
+      - REDIS_SERVER=redis
+      - REDIS_PORT=6379
+      - REDIS_CACHE_DURATION_IN_MINUTES=1
     ports:
       - "${PORT}:80"
+  redis:
+    image: redis:6.0.9
 secrets:
    alpha_vantage_api_key:
      file: alpha_vantage_api_key.txt
